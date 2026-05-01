@@ -1,0 +1,33 @@
+# BoTooLogIA — Build et exécution production (multi-stage)
+# Build : npm ci, prisma generate, next build
+# Run  : next start (DATABASE_URL requis en runtime)
+
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY package.json ./
+RUN npm ci --omit=optional
+COPY . .
+ENV DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy?schema=public"
+RUN npx prisma generate
+ENV NODE_ENV=production
+RUN npm run build
+
+# Image de production : copie build + deps nécessaires au runtime
+FROM node:20-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+
+COPY --from=builder /app/package.json ./
+COPY --from=builder /app/next.config.js ./
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/generated ./generated
+COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/prisma.config.ts ./
+COPY --from=builder /app/node_modules ./node_modules
+
+EXPOSE 3000
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
+CMD ["npm", "run", "start"]

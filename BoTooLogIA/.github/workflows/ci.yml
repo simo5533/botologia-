@@ -1,0 +1,101 @@
+name: CI — BoTooLogIA
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  NODE_VERSION: "20"
+  DATABASE_URL: postgresql://postgres:postgres@localhost:5432/botoologia?schema=public
+  NEXTAUTH_SECRET: ci-nextauth-secret-minimum-32-characters-long
+  JWT_SECRET: ci-jwt-secret-minimum-32-characters-long
+
+jobs:
+  quality:
+    name: Quality Gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: botoologia
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d botoologia"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci --prefer-offline
+
+      - name: Prisma generate
+        run: npx prisma generate
+
+      - name: Prisma migrate deploy
+        run: npx prisma migrate deploy
+
+      - name: Seed DB (admin e2e)
+        run: npm run db:seed
+        env:
+          DATABASE_URL: ${{ env.DATABASE_URL }}
+          NEXTAUTH_SECRET: ${{ env.NEXTAUTH_SECRET }}
+          JWT_SECRET: ${{ env.JWT_SECRET }}
+
+      - name: TypeScript check
+        run: npx tsc --noEmit
+
+      - name: Prisma validate
+        run: npx prisma validate
+
+      - name: ESLint
+        run: npm run lint
+
+      - name: Tests with coverage
+        run: npx vitest run --coverage
+        env:
+          NODE_ENV: test
+          DATABASE_URL: ${{ env.DATABASE_URL }}
+          NEXTAUTH_SECRET: ${{ env.NEXTAUTH_SECRET }}
+          JWT_SECRET: ${{ env.JWT_SECRET }}
+
+      - name: Build
+        run: npm run build
+        env:
+          NODE_ENV: production
+          DATABASE_URL: ${{ env.DATABASE_URL }}
+          NEXTAUTH_SECRET: ${{ env.NEXTAUTH_SECRET }}
+          JWT_SECRET: ${{ env.JWT_SECRET }}
+
+      - name: Install Playwright Chromium
+        run: npx playwright install chromium --with-deps
+
+      - name: E2E Playwright
+        run: npx playwright test
+        env:
+          CI: true
+          NODE_ENV: production
+          DATABASE_URL: ${{ env.DATABASE_URL }}
+          NEXTAUTH_SECRET: ${{ env.NEXTAUTH_SECRET }}
+          JWT_SECRET: ${{ env.JWT_SECRET }}
+          ADMIN_PROTECTION_ENABLED: "true"
+          E2E_ADMIN_EMAIL: admin@botoologia.local
+          E2E_ADMIN_PASSWORD: admin123
+          PLAYWRIGHT_BASE_URL: http://127.0.0.1:3000

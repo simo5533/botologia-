@@ -1,0 +1,16 @@
+BoTooLogIA — Comment lancer le projet
+=====================================
+
+Le code Next.js est dans le dossier BoTooLogIA\.
+
+Option 1 — Depuis la racine (ce dossier)
+  • Double-clic : run.bat
+  • PowerShell : .\run.ps1
+  • Ou : npm run dev   (après avoir ouvert un terminal ici)
+
+Option 2 — Depuis le dossier BoTooLogIA\
+  • Double-clic : install-and-run.bat ou tout-installer-et-lancer.bat
+  • Terminal : cd BoTooLogIA puis npm run dev
+
+Prérequis : Node.js 18+ (https://nodejs.org)
+URL après démarrage : http://localhost:3000 (ou 3001 si 3000 est pris)

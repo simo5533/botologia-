@@ -1,0 +1,88 @@
+# BoTooLogIA — PostgreSQL 16 (dev local) + services optionnels
+# Usage : docker compose up -d
+# Variables POSTGRES_* et DATABASE_URL : voir .env / .env.example
+# Adminer (UI SQL) : docker compose --profile admin up -d
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: botoologia-db
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-botoologia}
+    ports:
+      - "5433:5432"
+    volumes:
+      - botoologia_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  adminer:
+    image: adminer:4
+    container_name: botoologia-adminer
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      ADMINER_DEFAULT_SERVER: db
+    depends_on:
+      db:
+        condition: service_healthy
+    profiles:
+      - admin
+
+  # Next.js dans Docker (optionnel) — même réseau que la BDD
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-botoologia}?schema=public
+      NODE_ENV: development
+    command: ["npm", "run", "dev", "--", "--hostname", "0.0.0.0"]
+    depends_on:
+      db:
+        condition: service_healthy
+    profiles:
+      - app
+
+  prisma-push:
+    build:
+      context: .
+      dockerfile: scripts/Dockerfile.prisma-push
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-botoologia}?schema=public
+    depends_on:
+      db:
+        condition: service_healthy
+    profiles:
+      - tools
+
+  prisma-studio:
+    build:
+      context: .
+      dockerfile: scripts/Dockerfile.prisma-push
+    ports:
+      - "5555:5555"
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-botoologia}?schema=public
+    command: ["npx", "prisma", "studio", "--port", "5555", "--browser", "none"]
+    depends_on:
+      db:
+        condition: service_healthy
+    profiles:
+      - tools
+
+volumes:
+  botoologia_pgdata:
+    name: botoologia_pgdata

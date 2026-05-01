@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="BoTooLogIA  agence IA au Maroc">
+  <defs><linearGradient id="o" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0" stop-color="#020617"/><stop offset="100%" stop-color="#312e81"/></linearGradient></defs>
+  <rect width="1200" height="630" fill="url(#o)"/>
+  <text x="600" y="300" text-anchor="middle" fill="#f8fafc" font-family="system-ui,sans-serif" font-size="64" font-weight="800">BoTooLogIA</text>
+  <text x="600" y="370" text-anchor="middle" fill="#67e8f9" font-family="system-ui,sans-serif" font-size="32" font-weight="600">Agence IA au Maroc</text>
+  <text x="600" y="430" text-anchor="middle" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="24">Automatisation · Chatbots · Solutions web</text>
+</svg>

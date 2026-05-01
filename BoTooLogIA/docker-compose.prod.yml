@@ -1,0 +1,43 @@
+# BoTooLogIA — Déploiement production-like (build Next.js + PostgreSQL)
+# Usage:
+#   1. Créer .env avec DATABASE_URL, NEXTAUTH_SECRET, NEXTAUTH_URL, etc. (voir .env.example)
+#   2. docker compose -f docker-compose.prod.yml up -d
+#   3. Appliquer les migrations : docker compose -f docker-compose.prod.yml run --rm app npx prisma migrate deploy
+# Accès : http://localhost:3000
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: botoologia-db-prod
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-botoologia}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-botoologia}
+    volumes:
+      - postgres_data_prod:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-botoologia} -d ${POSTGRES_DB:-botoologia}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.production
+    container_name: botoologia-app-prod
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file: .env
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://${POSTGRES_USER:-botoologia}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-botoologia}?schema=public
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgres_data_prod:

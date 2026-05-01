@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" role="img" aria-label="Portail IA">
+  <defs><linearGradient id="p" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#0f172a"/><stop offset="1" stop-color="#312e81"/></linearGradient></defs>
+  <rect width="1280" height="720" fill="url(#p)"/>
+  <rect x="320" y="180" width="640" height="360" rx="24" fill="rgba(56,189,248,0.08)" stroke="rgba(165,243,252,0.35)" stroke-width="2"/>
+  <text x="640" y="330" text-anchor="middle" fill="#f8fafc" font-family="system-ui,sans-serif" font-size="56" font-weight="800">Portail IA</text>
+  <text x="640" y="400" text-anchor="middle" fill="#cbd5e1" font-family="system-ui,sans-serif" font-size="28">Gestion intelligente des espaces éducatifs</text>
+</svg>

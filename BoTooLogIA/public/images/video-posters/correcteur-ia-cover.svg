@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" role="img" aria-label="Correcteur IA">
+  <defs><linearGradient id="c" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#022c22"/><stop offset="1" stop-color="#0f766e"/></linearGradient></defs>
+  <rect width="1280" height="720" fill="url(#c)"/>
+  <rect x="180" y="120" width="920" height="480" rx="32" fill="rgba(45,212,191,0.1)" stroke="rgba(153,246,228,0.4)" stroke-width="2"/>
+  <text x="640" y="340" text-anchor="middle" fill="#ecfdf5" font-family="system-ui,sans-serif" font-size="56" font-weight="800">Correcteur IA</text>
+  <text x="640" y="410" text-anchor="middle" fill="#ccfbf1" font-family="system-ui,sans-serif" font-size="28">Correction intelligente et accompagnement scolaire</text>
+</svg>

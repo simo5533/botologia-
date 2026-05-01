@@ -1,0 +1,7 @@
+# Image minimale pour exécuter Prisma db push (réseau Docker, évite auth depuis l'hôte Windows)
+FROM node:20-alpine
+WORKDIR /app
+COPY prisma prisma
+COPY prisma.config.ts .
+RUN npm init -y && npm install prisma@7 dotenv
+CMD ["npx", "prisma", "db", "push"]

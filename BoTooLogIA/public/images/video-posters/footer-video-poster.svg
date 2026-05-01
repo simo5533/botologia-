@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" role="img" aria-label="BoTooLogIA footer">
+  <defs><linearGradient id="f" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#020617"/><stop offset="1" stop-color="#000"/></linearGradient></defs>
+  <rect width="1280" height="720" fill="url(#f)"/>
+  <path d="M0 400 Q320 360 640 420 T1280 380 L1280 720 L0 720Z" fill="rgba(34,211,238,0.08)"/>
+  <text x="640" y="380" text-anchor="middle" fill="#67e8f9" font-family="system-ui,sans-serif" font-size="48" font-weight="700">BoTooLogIA</text>
+</svg>

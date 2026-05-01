@@ -1,0 +1,74 @@
+{
+  "date": "2026-03-03T00:32:20.962Z",
+  "score": 92,
+  "results": [
+    {
+      "category": "TypeScript",
+      "status": "ERROR",
+      "message": "Erreurs",
+      "details": "lib/db/prisma.ts(35,7): error TS2353: Object literal may only specify known properties, and 'datasources' does not exist in type 'Subset<PrismaClientOptions, PrismaClientOptions>'.\r\nlib/services/boss-service.ts(68,19): error TS2322: Type '{ period: string | null; amount: number; }[]' is not assignab"
+    },
+    {
+      "category": "Prisma validate",
+      "status": "OK",
+      "message": "Schema valide",
+      "details": "Loaded Prisma config from prisma.config.ts.\n\nPrisma schema loaded from prisma\\schema.prisma.\nThe schema at prisma\\schema.prisma is valid 🚀\n"
+    },
+    {
+      "category": "Tests Vitest",
+      "status": "OK",
+      "message": "Tous passés",
+      "details": " 1406ms\n   ✓ password > verifyPassword returns true for correct password (bcrypt) 1585ms\n   ✓ password > verifyPassword returns false for wrong password 1190ms\n ✓ lib/api/__tests__/response.test.ts (5 tests) 21ms\n\n Test Files  3 passed (3)\n      Tests  18 passed (18)\n   Start at  00:32:09\n   Duratio"
+    },
+    {
+      "category": "Fichier: prisma/schema.prisma",
+      "status": "OK",
+      "message": "Présent"
+    },
+    {
+      "category": "Fichier: prisma.config.ts",
+      "status": "OK",
+      "message": "Présent"
+    },
+    {
+      "category": "Fichier: lib/db/prisma.ts",
+      "status": "OK",
+      "message": "Présent"
+    },
+    {
+      "category": "Fichier: lib/auth/session.ts",
+      "status": "OK",
+      "message": "Présent"
+    },
+    {
+      "category": "Fichier: lib/auth/password.ts",
+      "status": "OK",
+      "message": "Présent"
+    },
+    {
+      "category": "Fichier: lib/api/auth-guard.ts",
+      "status": "OK",
+      "message": "Présent"
+    },
+    {
+      "category": "Fichier: app/layout.tsx",
+      "status": "OK",
+      "message": "Présent"
+    },
+    {
+      "category": "Fichier: app/(public)/layout.tsx",
+      "status": "OK",
+      "message": "Présent"
+    },
+    {
+      "category": "ENV: .env",
+      "status": "OK",
+      "message": "Présent"
+    },
+    {
+      "category": "ENV: DATABASE_URL",
+      "status": "OK",
+      "message": "Défini"
+    }
+  ]
+}

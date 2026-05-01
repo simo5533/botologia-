@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" role="img" aria-label="E-commerce intelligent">
+  <defs><linearGradient id="e" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#1e1b4b"/><stop offset="1" stop-color="#431407"/></linearGradient></defs>
+  <rect width="1280" height="720" fill="url(#e)"/>
+  <rect x="300" y="200" width="680" height="320" rx="20" fill="rgba(251,146,60,0.1)" stroke="rgba(251,191,36,0.45)" stroke-width="2"/>
+  <text x="640" y="340" text-anchor="middle" fill="#fff7ed" font-family="system-ui,sans-serif" font-size="52" font-weight="800">E-commerce intelligent</text>
+  <text x="640" y="410" text-anchor="middle" fill="#fed7aa" font-family="system-ui,sans-serif" font-size="28">Expérience d&apos;achat moderne et optimisée</text>
+</svg>

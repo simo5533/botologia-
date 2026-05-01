@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" role="img" aria-label="Inoxya  Site e-commerce">
+  <rect width="800" height="450" fill="#1c1917"/>
+  <rect x="40" y="40" width="720" height="370" rx="16" fill="rgba(251,191,36,0.1)" stroke="#fbbf24" stroke-width="2"/>
+  <text x="400" y="240" text-anchor="middle" fill="#fffbeb" font-family="system-ui,sans-serif" font-size="32" font-weight="800">Inoxya</text>
+  <text x="400" y="285" text-anchor="middle" fill="#fde68a" font-family="system-ui,sans-serif" font-size="18">E-commerce</text>
+</svg>

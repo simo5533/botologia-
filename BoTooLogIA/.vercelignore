@@ -1,0 +1,4 @@
+# Ne pas envoyer le .env local au build Vercel (évite d'écraser DATABASE_URL avec 127.0.0.1)
+.env
+.env.*
+!.env.example

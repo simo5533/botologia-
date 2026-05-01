@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" role="img" aria-label="BoToLink">
+  <defs><linearGradient id="b" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#172554"/><stop offset="1" stop-color="#0f172a"/></linearGradient></defs>
+  <rect width="1280" height="720" fill="url(#b)"/>
+  <text x="640" y="360" text-anchor="middle" fill="#c7d2fe" font-family="system-ui,sans-serif" font-size="56" font-weight="800">BoToLink</text>
+  <text x="640" y="430" text-anchor="middle" fill="#a5b4fc" font-family="system-ui,sans-serif" font-size="28">Contact &amp; rendez-vous</text>
+</svg>

@@ -1,0 +1,7 @@
+{
+  "css.lint.unknownAtRules": "ignore",
+  "scss.lint.unknownAtRules": "ignore",
+  "less.lint.unknownAtRules": "ignore",
+  "prisma.pinToPrisma6": true,
+  "typescript.tsdk": "BoTooLogIA/node_modules/typescript/lib"
+}

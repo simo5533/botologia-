@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" role="img" aria-label="BotoSquad  Automatisation IA">
+  <rect width="800" height="450" fill="#020617"/>
+  <rect x="40" y="40" width="720" height="370" rx="16" fill="rgba(129,140,248,0.12)" stroke="#818cf8" stroke-width="2"/>
+  <text x="400" y="240" text-anchor="middle" fill="#eef2ff" font-family="system-ui,sans-serif" font-size="32" font-weight="800">BotoSquad</text>
+  <text x="400" y="285" text-anchor="middle" fill="#c7d2fe" font-family="system-ui,sans-serif" font-size="18">Automatisation IA</text>
+</svg>

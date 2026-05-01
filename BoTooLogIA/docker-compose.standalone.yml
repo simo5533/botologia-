@@ -1,0 +1,22 @@
+# BoTooLogIA — PostgreSQL (secours si .env absent ou Docker simple)
+# Usage: docker compose -f docker-compose.standalone.yml up -d
+# Puis dans .env : DATABASE_URL="postgresql://postgres:postgres@127.0.0.1:5433/botoologia?schema=public"
+# POSTGRES_HOST_AUTH_METHOD=trust : évite les échecs d'auth depuis l'hôte Windows (dev uniquement)
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: botoologia-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: botoologia
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data_standalone:/var/lib/postgresql/data
+
+volumes:
+  postgres_data_standalone:

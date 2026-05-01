@@ -1,0 +1,30 @@
+# dependencies
+node_modules
+.pnp
+.pnp.js
+# build
+.next
+out
+# misc
+.DS_Store
+*.pem
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+# env (ne jamais commiter .env — utiliser .env.example comme modèle)
+.env
+.env.local
+.env*.local
+.env.production
+# Identifiants admin générés par db:seed:admins
+ADMIN_CREDENTIALS.txt
+# Prisma generated client (Prisma 7)
+generated/
+# typescript (keep next-env.d.ts committed for fresh clones)
+.vercel
+coverage/
+playwright-report/
+test-results/
+*.tsbuildinfo
+prisma-url-debug.txt

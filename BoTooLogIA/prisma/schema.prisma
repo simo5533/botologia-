@@ -1,0 +1,378 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+// Connexion : l’URL n’est pas déclarée ici (Prisma 7 — voir prisma.config.ts, variable DATABASE_URL dans .env).
+// Règle : DATABASE_URL doit correspondre à POSTGRES_USER, POSTGRES_PASSWORD et POSTGRES_DB du même .env
+// (Docker : port hôte 5433 → 127.0.0.1:5433, ex. postgresql://USER:PASSWORD@127.0.0.1:5433/botoologia?schema=public).
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id                   String     @id @default(cuid())
+  email                String     @unique
+  passwordHash         String?
+  name                 String?
+  firstName            String?
+  lastName             String?
+  role                 Role       @default(user)
+  adminLevel           Int?
+  status               UserStatus @default(active)
+  twoFactorSecret      String?
+  twoFactorBackupCodes Json?
+  lastLoginAt          DateTime?
+  lastLoginIp          String?
+  emailVerified        DateTime?
+  passwordChangedAt    DateTime?
+  failedLoginAttempts  Int        @default(0)
+  lockedUntil          DateTime?
+  lastUsedTotpToken    String?
+  lastUsedTotpAt       DateTime?
+  twoFaFailedAttempts  Int        @default(0)
+  twoFaWindowStartedAt DateTime?
+  createdAt            DateTime   @default(now())
+  updatedAt            DateTime   @updatedAt
+  deletedAt            DateTime?
+  auditLogs            AuditLog[]
+  sessions             Session[]
+  analytics            Analytics[]
+  notifications        Notification[]
+
+  @@index([createdAt])
+  @@index([role])
+  @@index([status])
+  @@index([role, status])
+  @@index([lastLoginAt])
+}
+
+model Session {
+  id         String    @id @default(cuid())
+  userId     String
+  tokenHash  String    @unique
+  expiresAt  DateTime
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  lastUsedAt DateTime? @default(now())
+  userAgent  String?
+  ip         String?
+  isValid    Boolean   @default(true)
+  revokedAt  DateTime?
+  revokedBy  String?
+  deletedAt  DateTime?
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([expiresAt])
+  @@index([userId])
+  @@index([expiresAt, userId])
+  @@index([isValid])
+  @@index([userId, isValid])
+}
+
+model AuditLog {
+  id        String        @id @default(cuid())
+  action    String
+  userId    String?
+  resource  String?
+  resourceId String?
+  severity  AuditSeverity @default(MEDIUM)
+  details   Json?
+  ip        String?
+  userAgent String?
+  success   Boolean       @default(true)
+  duration  Int?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  deletedAt DateTime?
+  user      User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([action])
+  @@index([createdAt])
+  @@index([action, createdAt])
+  @@index([severity])
+  @@index([userId])
+  @@index([resource, resourceId])
+}
+
+model Contact {
+  id          String        @id @default(cuid())
+  name        String
+  email       String
+  telephone   String?
+  societe     String?
+  poste       String?
+  message     String        @db.Text
+  services    String[]      @default([])
+  budget      String?
+  timeline    String?
+  description String?       @db.Text
+  objectifs   String?
+  experience  String?
+  /** Créneau RDV choisi sur BoToLink (appel 30 min) */
+  appointmentAt DateTime?
+  status      ContactStatus @default(new)
+  source      String?
+  notes       String?       @db.Text
+  assignedTo  String?
+  ipAddress   String?
+  userAgent   String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  treatedAt   DateTime?
+  deletedAt   DateTime?
+
+  @@index([createdAt])
+  @@index([status])
+  @@index([status, createdAt])
+  @@index([email])
+  @@index([source])
+  @@index([assignedTo])
+}
+
+model Revenue {
+  id             String    @id @default(cuid())
+  amount         Decimal   @db.Decimal(12, 2)
+  currency       String    @default("EUR")
+  periodType     String
+  periodValue    String?
+  label          String?   @db.Text
+  clientName     String?
+  clientEmail    String?
+  serviceType    String?
+  status         String    @default("CONFIRME")
+  invoiceUrl     String?
+  invoiceNumber  String?
+  notes          String?   @db.Text
+  taxRate        Float?
+  amountHT       Decimal?  @db.Decimal(12, 2)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  paidAt         DateTime?
+  deletedAt      DateTime?
+
+  @@index([periodType])
+  @@index([status])
+  @@index([createdAt])
+  @@index([clientEmail])
+  @@index([paidAt(sort: Desc)])
+}
+
+model AppSettings {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       String   @db.Text
+  description String?
+  isPublic    Boolean  @default(false)
+  updatedBy   String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  deletedAt   DateTime?
+
+  @@index([key])
+  @@index([isPublic])
+}
+
+enum Role {
+  user
+  admin
+  boss
+  super_admin
+}
+
+enum UserStatus {
+  active
+  verified
+  suspended
+  banned
+}
+
+enum AuditSeverity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum ContactStatus {
+  new
+  read
+  archived
+}
+
+model Analytics {
+  id        String   @id @default(cuid())
+  page      String
+  event     String
+  userId    String?
+  sessionId String?
+  metadata  Json?
+  ip        String?
+  userAgent String?
+  country   String?
+  device    String?
+  browser   String?
+  duration  Int?
+  referrer  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([page])
+  @@index([event])
+  @@index([userId])
+  @@index([page, event])
+  @@index([createdAt(sort: Desc)])
+}
+
+model PageView {
+  id        String   @id @default(cuid())
+  page      String
+  sessionId String?
+  referrer  String?
+  duration  Int?
+  ip        String?
+  userAgent String?
+  country   String?
+  device    String?
+  browser   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+
+  @@index([page])
+  @@index([sessionId])
+  @@index([device])
+  @@index([createdAt(sort: Desc)])
+  @@index([page, createdAt(sort: Desc)])
+}
+
+enum ProspectStatus {
+  NOUVEAU
+  CONTACTE
+  QUALIFIE
+  DEVIS_ENVOYE
+  NEGOCIATION
+  CLIENT
+  PERDU
+}
+
+model Prospect {
+  id           String         @id @default(cuid())
+  nom          String
+  societe      String?
+  email        String         @unique
+  telephone    String?
+  poste        String?
+  services     String[]       @default([])
+  budget       String?
+  delai        String?
+  description  String?        @db.Text
+  /** Aligné sur le créneau demandé dans le devis BoToLink */
+  appointmentAt DateTime?
+  status       ProspectStatus @default(NOUVEAU)
+  priority     Int            @default(0)
+  score        Int            @default(0)
+  notes        String?        @db.Text
+  assignedTo   String?
+  source       String?
+  tags         String[]       @default([])
+  lastContact  DateTime?
+  nextFollowUp DateTime?
+  dealValue    Float?
+  probability  Int?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  convertedAt  DateTime?
+  deletedAt    DateTime?
+  activities   Activity[]
+
+  @@index([status, createdAt])
+  @@index([email])
+  @@index([score])
+  @@index([assignedTo])
+  @@index([dealValue(sort: Desc)])
+  @@index([nextFollowUp])
+}
+
+model Activity {
+  id          String   @id @default(cuid())
+  prospectId  String
+  type        String
+  content     String   @db.Text
+  authorId    String?
+  authorName  String?
+  outcome     String?
+  nextAction  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  deletedAt   DateTime?
+  prospect    Prospect @relation(fields: [prospectId], references: [id], onDelete: Cascade)
+
+  @@index([prospectId])
+  @@index([type])
+  @@index([authorId])
+  @@index([createdAt(sort: Desc)])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String?
+  title     String
+  message   String
+  type      String   @default("INFO")
+  isRead    Boolean  @default(false)
+  link      String?
+  metadata  Json?
+  expiresAt DateTime?
+  createdAt DateTime @default(now())
+  readAt    DateTime?
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([isRead])
+  @@index([type])
+  @@index([expiresAt])
+  @@index([createdAt(sort: Desc)])
+  @@index([userId, isRead])
+}
+
+model BotConversation {
+  id        String   @id @default(cuid())
+  sessionId String
+  userId    String?
+  messages  Json
+  context   Json?
+  source    String?
+  converted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+
+  @@index([sessionId])
+  @@index([userId])
+  @@index([converted])
+  @@index([createdAt(sort: Desc)])
+}
+
+model ScheduledTask {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  lastRunAt DateTime?
+  nextRunAt DateTime?
+  status    String    @default("PENDING")
+  result    Json?
+  error     String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@index([name])
+  @@index([nextRunAt])
+  @@index([status])
+}
