@@ -5,9 +5,16 @@ const globalForPrisma = globalThis as unknown as {
   prisma: ReturnType<typeof createExtendedClient> | undefined;
 };
 
+/** Même valeur factice que `prisma.config.ts` — build Vercel/CI sans secrets injectés. */
+const buildPlaceholderDatabaseUrl =
+  "postgresql://build_placeholder:build_placeholder@127.0.0.1:5432/build_placeholder?schema=public";
+
 function getConnectionString(): string {
   let url = process.env.DATABASE_URL;
   if (!url || url.trim() === "") {
+    if (process.env.VERCEL === "1" || process.env.CI === "true") {
+      return buildPlaceholderDatabaseUrl;
+    }
     throw new Error(
       "DATABASE_URL manquant. Configurez-la dans .env (ex: postgresql://user:password@localhost:5432/botoologia)"
     );
