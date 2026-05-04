@@ -5,7 +5,6 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import {
   buildCanonical,
   defaultSiteDescription,
-  SITE_CANONICAL_ORIGIN,
   SITE_NAME,
 } from "@/lib/seo";
 import { SITE_KEYWORDS_FR } from "@/lib/seo/copy";
@@ -33,7 +32,7 @@ const manrope = Manrope({
 const canonicalHome = buildCanonical("/botohub");
 
 export const metadata: Metadata = {
-  metadataBase: new URL(SITE_CANONICAL_ORIGIN),
+  metadataBase: new URL('https://www.botoologia.ai'),
   title: {
     default: 'Agence IA & Automatisation au Maroc | BoTooLogIA',
     template: '%s | BoTooLogIA',
