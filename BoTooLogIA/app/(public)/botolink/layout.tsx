@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { absoluteUrl, SITE_NAME } from "@/lib/seo";
+import { absoluteUrl, buildCanonical, SITE_NAME } from "@/lib/seo";
 import { linkPageCopy } from "@/lib/seo/copy";
 
 export const metadata: Metadata = {
-  title: linkPageCopy.metaTitle,
+  title: 'Démarrer un Projet IA au Maroc — Contact',
   description: linkPageCopy.metaDescription,
-  alternates: { canonical: "/botolink" },
+  alternates: { canonical: buildCanonical("/botolink") },
   openGraph: {
     title: linkPageCopy.metaTitle,
     description: linkPageCopy.metaDescription,

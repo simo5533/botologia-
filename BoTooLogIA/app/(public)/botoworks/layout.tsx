@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { absoluteUrl, SITE_NAME } from "@/lib/seo";
+import { absoluteUrl, buildCanonical, SITE_NAME } from "@/lib/seo";
 import { worksPageCopy } from "@/lib/seo/copy";
 
 export const metadata: Metadata = {
-  title: worksPageCopy.metaTitle,
+  title: 'Réalisations IA & Automatisation — Cas d\'usage Maroc',
   description: worksPageCopy.metaDescription,
-  alternates: { canonical: "/botoworks" },
+  alternates: { canonical: buildCanonical("/botoworks") },
   openGraph: {
     title: worksPageCopy.metaTitle,
     description: worksPageCopy.metaDescription,

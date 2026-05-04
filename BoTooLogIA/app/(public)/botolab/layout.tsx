@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
 import {
   absoluteUrl,
+  buildCanonical,
   defaultSiteDescription,
   SITE_NAME,
 } from "@/lib/seo";
 import { labPageCopy } from "@/lib/seo/copy";
 
 export const metadata: Metadata = {
-  title: labPageCopy.metaTitle,
+  title: 'Laboratoire IA — Prototypes & Services sur Mesure',
   description: labPageCopy.metaDescription,
-  alternates: { canonical: "/botolab" },
+  alternates: { canonical: buildCanonical("/botolab") },
   openGraph: {
     title: labPageCopy.metaTitle,
     description: defaultSiteDescription,
