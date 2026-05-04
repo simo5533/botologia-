@@ -91,6 +91,9 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  verification: {
+    google: '8b306ce18f678b8e',
+  },
 };
 
 /** Mise à l’échelle correcte sur mobile / tablette / desktop (pas de “viewport fixe” étroit). */
