@@ -3,9 +3,9 @@ import { Inter, Space_Grotesk, Manrope } from "next/font/google";
 import { ClientProviders } from "@/components/ClientProviders";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
-  absoluteUrl,
+  buildCanonical,
   defaultSiteDescription,
-  getSiteUrl,
+  SITE_CANONICAL_ORIGIN,
   SITE_NAME,
 } from "@/lib/seo";
 import { SITE_KEYWORDS_FR } from "@/lib/seo/copy";
@@ -30,39 +30,67 @@ const manrope = Manrope({
   display: "swap",
 });
 
-const canonicalHome = absoluteUrl("/botohub");
-const siteOrigin = getSiteUrl();
+const canonicalHome = buildCanonical("/botohub");
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteOrigin),
+  metadataBase: new URL(SITE_CANONICAL_ORIGIN),
   title: {
-    default: "BoTooLogIA — Agence IA au Maroc | Automatisation, assistants IA et solutions web",
-    template: "%s | BoTooLogIA",
+    default: 'Agence IA & Automatisation au Maroc | BoTooLogIA',
+    template: '%s | BoTooLogIA',
   },
-  description: defaultSiteDescription,
+  description:
+    'BoTooLogIA conçoit des chatbots IA, automatisations n8n et assistants intelligents pour les entreprises au Maroc. Agence basée à Rabat, du cadrage au déploiement.',
   keywords: [...SITE_KEYWORDS_FR],
   authors: [{ name: SITE_NAME }],
+  category: "technology",
   alternates: {
-    canonical: "/botohub",
+    canonical: canonicalHome,
+    languages: { fr: canonicalHome, "x-default": canonicalHome },
   },
   openGraph: {
     type: "website",
-    locale: "fr_FR",
+    locale: "fr_MA",
     url: canonicalHome,
     siteName: SITE_NAME,
-    title: "BoTooLogIA — Agence IA au Maroc",
+    title: "BoTooLogIA | Agence IA & Automatisation au Maroc",
     description: defaultSiteDescription,
-    images: [{ url: "/og-image.svg", width: 1200, height: 630 }],
+    images: [
+      {
+        url: "/logo-mark.png",
+        width: 512,
+        height: 512,
+        alt: "BoTooLogIA — Agence IA et automatisation au Maroc",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "BoTooLogIA — Agence IA au Maroc",
+    title: "BoTooLogIA | Agence IA & Automatisation au Maroc",
     description: defaultSiteDescription,
+    images: ["/logo-mark.png"],
   },
   icons: {
-    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+    icon: [
+      { url: "/favicon-48.png", sizes: "48x48", type: "image/png" },
+      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon.png", sizes: "512x512", type: "image/png" },
+      { url: "/favicon-192.png", sizes: "192x192", type: "image/png" },
+    ],
+    shortcut: [{ url: "/favicon-48.png", type: "image/png" }],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 /** Mise à l’échelle correcte sur mobile / tablette / desktop (pas de “viewport fixe” étroit). */
