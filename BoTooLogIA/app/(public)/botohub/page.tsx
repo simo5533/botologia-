@@ -12,7 +12,6 @@ import type { LucideIcon } from "lucide-react";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { JsonLdBotoHub } from "@/components/seo/JsonLdBotoHub";
 import { SiteContentFrame } from "@/components/layout/SiteContentFrame";
-import Link from "next/link";
 import { absoluteUrl, buildCanonical, SITE_NAME } from "@/lib/seo";
 import { hubPageCopy } from "@/lib/seo/copy";
 import { buildBoToHubSupplementStructuredData } from "@/lib/seo/schema-graph";
@@ -157,67 +156,6 @@ export default function BoToHubPage() {
           </div>
         </SectionWrapper>
 
-        <section
-          className="sr-only"
-          aria-label="Description détaillée BoToHub"
-        >
-          <div className="container mx-auto max-w-4xl px-6 py-16">
-            <h2 className="font-heading text-2xl font-semibold text-white">
-              BoToHub : Votre Partenaire IA &amp; Automatisation au Maroc
-            </h2>
-            <p className="mb-4 mt-4 text-base leading-relaxed text-slate-300">
-              BoToHub est la plateforme principale de BoTooLogIA, dédiée à la conception et au
-              déploiement de solutions d&apos;intelligence artificielle pour les entreprises
-              marocaines. Que votre besoin soit un chatbot de support client, un workflow automatisé
-              ou un agent IA connecté à vos données internes, BoToHub est le point d&apos;entrée de
-              votre transformation numérique.
-            </p>
-
-            <h3 className="mt-8 font-heading text-xl font-semibold text-white">
-              Comment fonctionne notre approche ?
-            </h3>
-            <p className="mb-4 mt-3 text-base leading-relaxed text-slate-300">
-              Nous partons toujours de vos processus réels. Pas de solution générique : chaque projet
-              commence par un atelier de cadrage où nous analysons vos flux de travail, identifions
-              les points de friction et estimons le retour sur investissement attendu. Cette rigueur
-              nous permet de livrer des solutions IA qui s&apos;intègrent naturellement dans votre
-              organisation.
-            </p>
-
-            <h3 className="mt-8 font-heading text-xl font-semibold text-white">
-              Quels secteurs accompagnons-nous au Maroc ?
-            </h3>
-            <p className="mb-4 mt-3 text-base leading-relaxed text-slate-300">
-              BoTooLogIA intervient dans des secteurs variés : éducation (plateformes de soutien
-              scolaire intelligentes), e-commerce (recommandations et support automatisé),
-              institutions publiques (gestion documentaire et portails IA), santé (prise de
-              rendez-vous vocale) et PME de services (automatisation commerciale et CRM enrichi par
-              l&apos;IA).
-            </p>
-
-            <h3 className="mt-8 font-heading text-xl font-semibold text-white">
-              Technologies utilisées par BoTooLogIA
-            </h3>
-            <p className="mb-6 mt-3 text-base leading-relaxed text-slate-300">
-              Notre stack technique est orientée résultats : GPT-4o et Claude pour les modèles de
-              langage, n8n pour l&apos;orchestration des workflows, Supabase et pgvector pour la base
-              de données vectorielle (RAG), Next.js 14 pour les interfaces web et Python FastAPI pour
-              les backends IA. Chaque composant est sélectionné pour sa fiabilité en production, pas
-              pour sa popularité.
-            </p>
-
-            <div className="border-t border-gray-700 pt-6">
-              <p className="text-sm text-slate-400">
-                <strong>BoTooLogIA</strong> — Agence IA &amp; Automatisation basée à Rabat, Maroc.
-                RC : 183221 — ICE : 003896691000005. Nous intervenons sur tout le territoire marocain
-                et accompagnons les projets à distance pour les clients à l&apos;international.{" "}
-                <Link href="/botolink" className="text-cyan-400 underline hover:text-cyan-300">
-                  Contact
-                </Link>
-              </p>
-            </div>
-          </div>
-        </section>
       </div>
     </>
   );
