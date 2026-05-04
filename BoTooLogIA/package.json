@@ -123,6 +123,7 @@
     "dotenv": "^16.6.1",
     "eslint": "8.57.1",
     "eslint-config-next": "14.2.35",
+    "google-auth-library": "^10.6.2",
     "postcss": "8.4.49",
     "prisma": "^7.4.0",
     "tailwindcss": "3.4.15",
@@ -132,7 +133,8 @@
     "vitest": "^2.1.6"
   },
   "overrides": {
-    "lodash": "4.17.23"
+    "lodash": "4.17.23",
+    "rimraf": "^5.0.10"
   },
   "prisma": {
     "seed": "npx tsx prisma/seed.ts"
