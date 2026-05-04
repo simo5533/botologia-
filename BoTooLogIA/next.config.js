@@ -28,8 +28,25 @@ const securityHeaders = [
 
 const nextConfig = {
   reactStrictMode: true,
+  async redirects() {
+    return [
+      // PRIORITY 1: "/" → "/botohub" at config level (before React / stale HTML edge cache)
+      {
+        source: '/',
+        destination: '/botohub',
+        permanent: true,
+      },
+      // PRIORITY 2: non-www → www enforcement
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'botoologia.ai' }],
+        destination: 'https://www.botoologia.ai/:path*',
+        permanent: true,
+      },
+    ];
+  },
   async rewrites() {
-    return [{ source: '/favicon.ico', destination: '/favicon.svg' }];
+    return [{ source: '/favicon.ico', destination: '/favicon.png' }];
   },
   devIndicators: { buildActivity: true },
   typescript: { ignoreBuildErrors: false },
@@ -64,7 +81,16 @@ const nextConfig = {
     instrumentationHook: true,
   },
   async headers() {
+    const rootNoStoreHeaders = [
+      { key: 'Cache-Control', value: 'no-store, no-cache, must-revalidate' },
+      { key: 'CDN-Cache-Control', value: 'no-store' },
+      { key: 'Vercel-CDN-Cache-Control', value: 'no-store' },
+    ];
     return [
+      {
+        source: '/',
+        headers: [...rootNoStoreHeaders, ...securityHeaders],
+      },
       { source: "/api/(.*)", headers: [{ key: "Cache-Control", value: "no-store" }] },
       {
         source: "/videos/:path*",
@@ -74,10 +100,14 @@ const nextConfig = {
             key: "Cache-Control",
             value: "public, max-age=86400, stale-while-revalidate=604800",
           },
-          { key: "Content-Type", value: "video/mp4" },
         ],
       },
-      { source: "/:path*", headers: securityHeaders },
+      {
+        source: "/:path*.webm",
+        headers: [{ key: "Content-Type", value: "video/webm" }],
+      },
+      // Avoid doubling headers on "/" (handled above); still covers all non-root routes.
+      { source: "/:path+", headers: securityHeaders },
     ];
   },
   transpilePackages: ['three', 'postprocessing', 'three-stdlib', '@react-three/drei', '@monogrid/gainmap-js'],
