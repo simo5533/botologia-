@@ -158,7 +158,7 @@ export default function BoToHubPage() {
         </SectionWrapper>
 
         <section
-          className="seo-rich-text border-t border-white/10 bg-slate-950/50"
+          className="sr-only"
           aria-label="Description détaillée BoToHub"
         >
           <div className="container mx-auto max-w-4xl px-6 py-16">
