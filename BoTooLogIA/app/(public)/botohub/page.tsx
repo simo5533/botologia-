@@ -10,12 +10,14 @@ import { services } from "@/lib/data/services";
 import { Bot, Settings, BarChart3, ClipboardList, Globe, Headphones } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { JsonLdBotoHub } from "@/components/seo/JsonLdBotoHub";
 import { SiteContentFrame } from "@/components/layout/SiteContentFrame";
 import Link from "next/link";
 import { absoluteUrl, buildCanonical, SITE_NAME } from "@/lib/seo";
 import { hubPageCopy } from "@/lib/seo/copy";
-import { buildBoToHubSupplementStructuredData } from "@/lib/seo/schema-graph";
+import {
+  buildBoToHubSupplementStructuredData,
+  buildBoToHubWebPageAndServiceJsonLd,
+} from "@/lib/seo/schema-graph";
 
 const iconMap: Record<string, LucideIcon> = {
   Bot,
@@ -66,7 +68,7 @@ export const metadata: Metadata = {
 export default function BoToHubPage() {
   return (
     <>
-      <JsonLdBotoHub />
+      <JsonLd data={buildBoToHubWebPageAndServiceJsonLd()} />
       <JsonLd data={buildBoToHubSupplementStructuredData()} />
       <div>
         <ScrollToBanner />
