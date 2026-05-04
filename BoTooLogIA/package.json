@@ -134,7 +134,10 @@
   },
   "overrides": {
     "lodash": "4.17.23",
-    "rimraf": "^5.0.10"
+    "rimraf": "^5.0.10",
+    "file-entry-cache": "^10.1.4",
+    "flat-cache": "^6.1.22",
+    "three-mesh-bvh": "^0.8.3"
   },
   "prisma": {
     "seed": "npx tsx prisma/seed.ts"
